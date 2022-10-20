@@ -1,0 +1,1 @@
+from .nikita import main
