@@ -40,6 +40,6 @@ class Telemetry(Document):
     event: Link[Event]
 ```
 ### Memory Usage
-Currently only car data telemetry is loaded as telemetry, the image below represent a possible memory usage for a single session (Race session of 2022 Bahrain Grand Prix)
+Currently only car data is loaded as telemetry, the image below represent a possible memory usage for a single session (Race session of 2022 Bahrain Grand Prix)
 
 ![report](images/report.jpg)
