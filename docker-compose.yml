@@ -5,10 +5,6 @@ services:
     restart: always
     ports: 
       - "27019:27017"
-    healthcheck:
-      test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo --quiet) -eq 1
-      interval: 10s
-      start_period: 30s
   nikita:
     build: 
       context: .

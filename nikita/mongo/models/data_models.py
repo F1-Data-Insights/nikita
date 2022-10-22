@@ -7,23 +7,24 @@ class Event(Document):
     round: Indexed(str)
 
 class Lap(Document):
-    lap_time: Indexed(int)
+    lap_time: Indexed(float)
     driver_number: int
     driver: Indexed(str)
     lap_number : int
-    sector_1_time: str
-    sector_2_time: str
-    sector_3_time: str
+    sector_1_time: float
+    sector_2_time: float
+    sector_3_time: float
     compound: str
-    event: Link('_id',Event)
+    event: Link[Event]
 
 class Telemetry(Document):
     rpm: int
-    speed: int
+    speed: float
     gear: int
     throttle : int
     brake: bool
     drs: int
-    time: int
+    time: float
     distance: float
-    lap: Link('_id',Lap)
+    lap: Link[Lap]
+    event: Link[Event]
