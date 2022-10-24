@@ -20,9 +20,9 @@ def setup_ff1():
 
 async def populate_telemetry(event_id: str, lap_id: str, telemetry: DataFrame):
     """Populate telemetry"""
-    telemetry = telemetry.drop(['Date'], axis=1)
+    telemetry = telemetry.drop(["Date"], axis=1)
     telemetry = telemetry.dropna()
-    telemetry['TimeSeconds'] = telemetry.Time.dt.total_seconds()
+    telemetry["TimeSeconds"] = telemetry.Time.dt.total_seconds()
 
     for idx, row in telemetry.iterrows():
         telemetry = Telemetry(
@@ -39,15 +39,16 @@ async def populate_telemetry(event_id: str, lap_id: str, telemetry: DataFrame):
         )
         await telemetry.insert()
 
+
 async def populate_laps(event_id: str, laps: DataFrame):
     """Populate laps for a given event, loads also the telemetry data for the single lap"""
-    laps = laps.drop(['PitInTime', 'PitOutTime', 'IsAccurate'], axis=1)
+    laps = laps.drop(["PitInTime", "PitOutTime", "IsAccurate"], axis=1)
     laps = laps.dropna()
 
-    laps['LapTimeSeconds'] = laps.LapTime.dt.total_seconds()
-    laps['Sector1TimeSeconds'] = laps.Sector1Time.dt.total_seconds()
-    laps['Sector2TimeSeconds'] = laps.Sector2Time.dt.total_seconds()
-    laps['Sector3TimeSeconds'] = laps.Sector3Time.dt.total_seconds()
+    laps["LapTimeSeconds"] = laps.LapTime.dt.total_seconds()
+    laps["Sector1TimeSeconds"] = laps.Sector1Time.dt.total_seconds()
+    laps["Sector2TimeSeconds"] = laps.Sector2Time.dt.total_seconds()
+    laps["Sector3TimeSeconds"] = laps.Sector3Time.dt.total_seconds()
 
     for idx, row in laps.iterrows():
         lap = Lap(
@@ -79,8 +80,13 @@ async def main():
     setup_ff1()
     await connect_mongo_client(MONGODB_URI)
 
-    session, event_id = await create_event(2022, "Bahrain", "R")
-    await populate_laps(event_id, session.laps)
+    session_list = ["FP1", "FP2", "FP3", "Q", "R"]
+
+    for x in session_list:
+        session, event_id = await create_event(2022, 1, x)
+        logging.info(f"Processing event {event_id}")
+        await populate_laps(event_id, session.laps)
+        logging.info(f"Finished processing event {event_id}")
 
     logging.info("Sleeping...")
     while True:

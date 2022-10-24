@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "nikita"
+version = "0.1.0"
+description = ""
+authors = ["Daniele Ferrazzo <daniele99@ferrazzo.it>","Simone Sangeniti <snakenextgen@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastf1 = ">=2.3.0"
+pydantic = ">=1.10.2"
+beanie = ">=1.12.1"
+python-dotenv = "*"
+
+[tool.poetry.dev-dependencies]
+ipykernel = "*"
+black = "*"
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.10.3"
+
+[tool.taskipy.tasks]
+"start" = "python run.py" 
+"docker:start" = "docker-compose up -d --build"
+"docker:stop" = "docker-compose down"
+"docker:restart:nikita" = "docker-compose up -d --build --no-deps --force-recreate nikita"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
